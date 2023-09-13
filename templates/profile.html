@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <div class="profile">
+    <h1 style="position: static; margin-left: -800px; margin-top: 50px">Profile</h1>
+    <div class="col" style="margin-left: -1300px">
+      <ul>
+      <li>Email: {{users.email}}</li>
+      <li>Username: {{users.username}}</li>
+      <li>Age: {{users.age}}</li>
+        <a href='http://127.0.0.1:5000/update_profile/'><button type="button" class="btn btn-outline-primary bg-white" style="color: black">Profile settings</button></a>
+
+      <img style="max-height: 250px; max-width: 250px; margin-left: 700px; margin-top: -70px" src="data:image/jpeg;base64,{{ bytea_to_base64(users.avatar) }}" alt="Фотография события">
+
+
+
+      <h1 style="margin-top: 50px">Публичные события пользователя {{ users.username }}</h1>
+      <ul>
+        {% for occurrence in occurrences %}
+        <a class="read_more" href="http://127.0.0.1:5000/{{occurrence.id}}"><button class="btn btn-outline-primary me-2" type="submit"> {{ occurrence.title }} </button></a>
+        {% endfor %}
+      </ul>
+
+
+      </ul>
+    </div>
+  </div>
+
+
+
+{% endblock %}

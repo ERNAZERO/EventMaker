@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if current_user.is_authenticated %}
+
+
+<div class="col">
+    <h1 style="position: static; margin-left: -800px; margin-top: 50px">Список событий</h1>
+    {% for occurrence in occurrences: %}
+
+    <div class="col" style="margin-left: -1325px; background-color: ghostwhite; border: 1px solid black">
+       <div class="latest" data-planned-date="{{ occurrence.planned_date.strftime('%Y-%m-%dT%H:%M:%S') }}">
+            <div class="nostrud">
+                <ul>
+                    <h2>{{ occurrence.title }}</h2>
+                    <p>{{ occurrence.content }}</p>
+                    <p>Планируемая дата: {{ occurrence.planned_date.strftime('%Y-%m-%d') }}</p>
+                    <p>Время: {{ occurrence.planned_date.strftime('%H:%M') }}</p>
+                    <p>Осталось времени:</p>
+                    <p class="timer" data-planned-date="{{ occurrence.planned_date.strftime('%Y-%m-%dT%H:%M:%S') }}"></p>
+                    <a class="read_more" href="http://127.0.0.1:5000/{{occurrence.id}}"><button class="btn btn-outline-primary me-2" type="submit">Подробнее</button></a>
+                    <button class="btn btn-outline-primary me-2" onclick="deleteEvent({{ occurrence.id }})">Выполнено</button>
+                </ul>
+            </div>
+       </div>
+    </div>
+
+    <img style="max-height: 250px; max-width: 250px; margin-left: -480px; margin-top: -350px" src="data:image/jpeg;base64,{{ bytea_to_base64(occurrence.post_image) }}" alt="Фотография события">
+    {% endfor %}
+
+
+</div>
+{% else %}
+
+<div class="container">
+            <div style="position: relative; margin-left: -700px; margin-top: 50px ">
+                    <h1>Пожалуйста зарегистрируйтесь или войдите в свой аккаунт, чтобы создавать события!</h1>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<script>
+        function deleteEvent(eventId) {
+            fetch(`/delete_event/${eventId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        // Обновляем страницу после успешного удаления события
+                        window.location.reload();
+                    }
+                })
+                .catch(error => console.error('Ошибка:', error));
+        }
+</script>
+
+<script>
+        function updateTimer() {
+            var now = new Date().getTime();
+            var timerElements = document.querySelectorAll('.timer');
+
+            timerElements.forEach(function (element) {
+                var plannedDateStr = element.dataset.plannedDate;
+                var plannedDate = new Date(plannedDateStr).getTime();
+                var distance = plannedDate - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                element.innerHTML = days + " дней " + hours + " часов " + minutes + " минут " + seconds + " секунд ";
+
+                if (distance <= 0) {
+                    clearInterval(timerInterval);
+                    element.innerHTML = "Время истекло";
+                }
+            });
+        }
+
+        var timerInterval = setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+
+{% endblock %}

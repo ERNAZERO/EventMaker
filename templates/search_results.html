@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="col">
+    <div style="position:absolute; margin-left: -800px; margin-top: 100px">
+        <h1>Поиск событий</h1>
+        <form method="GET" action="{{ url_for('search') }}">
+            <input type="text" name="query" placeholder="Введите запрос" class="btn btn-outline-primary bg-white" style="color: black">
+            <button type="submit" class="btn btn-outline-primary me-2">Искать</button>
+        </form>
+    </div>
+</div>
+
+    <ul>
+        <div class="col" style="position:absolute; margin-left: -900px; margin-top: 250px">
+            {% for occurrence in occurrences %}
+            <div class="col" style="margin-top: 25px">
+                <a class="read_more" href="http://127.0.0.1:5000/{{occurrence.id}}"><button class="btn btn-outline-primary me-2" type="submit"> {{ occurrence.title }} </button></a>
+            </div>
+            {% endfor %}
+        </div>
+    </ul>
+{% endblock %}

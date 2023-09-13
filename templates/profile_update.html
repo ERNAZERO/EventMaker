@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+{% block content %}
+<form method='post' enctype="multipart/form-data">
+    <div style="margin-top: 100px; margin-left: -900px">
+    <p>
+        <label for='username'>username</label>
+        <input type='text' name='username' value="{{ user.username }}"></input>
+    </p>
+    <p>
+        <label for='email'>email</label>
+        <input type='text' name='email' value="{{ user.email }}"></input>
+    </p>
+    <p>
+        <label for='age'>age</label>
+        <input type='text' name='age' value="{{ user.age }}"></input>
+    </p>
+
+    <div>
+         <p>Change avatar</p>
+         <input type="file" name="avatar">
+     </div>
+
+    <div>
+        <button type='submit'>Change</button>
+    </div>
+    </div>
+
+
+</form>
+{% endblock %}

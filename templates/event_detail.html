@@ -1,0 +1,72 @@
+{%extends 'base.html'%}
+{% block content %}
+
+
+    <div class="col">
+        <h1 style="position: static; margin-left: -800px; margin-top: 50px">{{ occurrence.title }}</h1>
+<!--      <h1>{{ occurrence.title }}</h1>-->
+
+            <div class="col" style="margin-left: -1300px;">
+                <div style="border-color: blue">
+                    <h3>Задача: </h3>
+                    <p>{{ occurrence.content }}</p>
+                    <h3>Запись была создана: </h3>
+                    <p>{{ occurrence.created_date.strftime('%Y-%m-%d') }}</p>
+                    <h3>Время создания: </h3>
+                    <p>{{ occurrence.created_date.strftime('%H:%M') }}</p>
+
+                    <h3>Дата окончания: </h3>
+                    <p>{{ occurrence.planned_date.strftime('%Y-%m-%d') }}</p>
+                    <h3>Время окончания: </h3>
+                    <p>{{ occurrence.planned_date.strftime('%H:%M') }}</p>
+                    <h3>Осталось: </h3>
+                    <p id="timer"></p>
+                    {% if current_user == occurrence.author:  %}
+                        <a href='http://127.0.0.1:5000/{{occurrence.id}}/update/'><button type="button" class="btn btn-outline-primary me-2">Изменить событие</button></a>
+                    {% endif %}
+
+                    <img style="max-height: 250px; max-width: 250px; margin-left: 600px; margin-top: -750px" src="data:image/jpeg;base64,{{ bytea_to_base64(occurrence.post_image) }}" alt="">
+
+                </div>
+            </div>
+   </div>
+
+
+
+
+
+    <script>
+        // Функция для обновления таймера каждую секунду
+        function updateTimer() {
+            // Получение текущей даты и времени
+            var now = new Date().getTime();
+
+            // Получение запланированного времени события
+            var plannedDate = new Date("{{ occurrence.planned_date }}").getTime();
+
+            // Вычисление разницы между текущим временем и запланированным временем
+            var distance = plannedDate - now;
+
+            // Вычисление оставшегося времени в днях, часах, минутах и секундах
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Отображение оставшегося времени в элементе с id "timer"
+            document.getElementById("timer").innerHTML = days + " дней " + hours + " часов " + minutes + " минут " + seconds + " секунд ";
+
+            // Если времени больше нет, останавливаем таймер
+            if (distance <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById("timer").innerHTML = "Время истекло";
+            }
+        }
+
+        // Обновление таймера каждую секунду
+        var timerInterval = setInterval(updateTimer, 1000);
+
+        // Вызов функции обновления таймера для отображения времени сразу при загрузке страницы
+        updateTimer();
+    </script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+{% block content %}
+<div class="col">
+    <div class="col" style="margin-left: -1300px; margin-top: 50px">
+<form method="post" enctype="multipart/form-data">
+    <h1>Установить новую дату</h1>
+    <label for="planned_date">Планируемая дата:</label>
+    <input type="date" id="planned_date" name="planned_date" required max="{{ today }}"><br>
+
+    <label for="planned_hour">Час:</label>
+    <input type="number" id="planned_hour" name="planned_hour" min="0" max="23" required>
+    <br>
+
+    <label for="planned_minute">Минуты:</label>
+    <input type="number" id="planned_minute" name="planned_minute" min="0" max="59" required>
+    <br>
+
+    <h1>Изменить задачи</h1>
+    <label for="content">Задачи:</label>
+    <textarea id="content" name="content" required></textarea><br>
+
+    <button type="submit" class="btn btn-outline-primary me-2">Принять изменения</button>
+
+</form>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="col">
+    <div style="position: absolute; margin-left: -800px; margin-top: 100px">
+        <h1>Найти друзей</h1>
+        <form method="post">
+            <input type="text" name="search_username" placeholder="Enter username" class="btn btn-outline-primary bg-white" style="color: black">
+            <input class="btn btn-outline-primary me-2" type="submit" value="Search">
+        </form>
+    <h2 style="margin-top: 50px">Search Results</h2>
+    </div>
+
+</div>
+
+{% if users %}
+        <ul>
+            <div class="col" style="position: absolute; margin-left: -950px; margin-top: 350px">
+            {% for user in users %}
+                <a class="read_more" href="http://127.0.0.1:5000/profile/{{user.id}}"><button class="btn btn-outline-primary me-2" type="submit"> {{ user.username }} </button></a>
+            {% endfor %}
+            </div>
+        </ul>
+    {% endif %}
+
+
+<!--{% for user in users %}-->
+<!--    <div class="col" style="position: relative; margin-left: -800px; margin-top: 250px">-->
+<!--        <ul>-->
+<!--                <div class="col" style="margin-left: -400px; margin-top: 30px">-->
+<!--                <a class="read_more" href="http://127.0.0.1:5000/profile/{{users.id}}"><button class="btn btn-outline-primary me-2" type="submit"> {{ users.username }} </button></a>-->
+<!--                </div>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--{% endfor %}-->
+{% endblock %}
+

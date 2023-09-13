@@ -1,0 +1,45 @@
+{%extends 'base.html'%}
+{% block content %}
+<div class="col">
+    <div style="position: relative; margin-left: -800px; margin-top: 50px ">
+        <title>Создание события</title>
+        <h1>Создание события</h1>
+        <form method='post' enctype="multipart/form-data">
+            <label for="title">Название задачи:</label>
+            <input type="text" id="title" name="title" required><br>
+
+            <label for="content">Описание задачи:</label>
+            <textarea id="content" name="content" required></textarea><br>
+
+            <label for="planned_date">Планируемая дата:</label>
+            <input type="date" id="planned_date" name="planned_date" required max="{{ today }}"><br>
+
+            <label for="planned_hour">Час:</label>
+            <input type="number" id="planned_hour" name="planned_hour" min="0" max="23" required>
+            <br>
+
+            <label for="planned_minute">Минуты:</label>
+            <input type="number" id="planned_minute" name="planned_minute" min="0" max="59" required>
+            <br>
+
+            <label for="public_event">Публичное событие</label>
+            <input type="checkbox" id="public_event" name="public_event">
+            <br>
+
+            <label for="event_image">Фотография:</label>
+            <input type="file" id="event_image" name="post_image" accept="image/*"><br>
+            <input type="submit" value="Создать событие">
+        </form>
+    </div>
+</div>
+
+<script>
+        // Получаем сегодняшнюю дату в формате ГГГГ-ММ-ДД
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('planned_date').setAttribute('min', today);
+</script>
+{% endblock %}
+
+
+
+
